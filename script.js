@@ -1,0 +1,338 @@
+// Initialize GSAP ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- 1. Custom Cursor Logic ---
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+    let isMobile = window.innerWidth <= 768;
+
+    if (!isMobile) {
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Add slight delay to outline
+            cursorOutline.style.left = `${posX}px`;
+            cursorOutline.style.top = `${posY}px`;
+        });
+
+        // Add hover effects for interactive elements
+        const interactives = document.querySelectorAll('button, a, input, .story-item, .cake, .tilt-card');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('cursor-hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('cursor-hover');
+            });
+        });
+    }
+
+    // --- 2. Magnetic Buttons ---
+    const magneticBtns = document.querySelectorAll('.magnetic-btn');
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const position = btn.getBoundingClientRect();
+            const x = e.clientX - position.left - position.width / 2;
+            const y = e.clientY - position.top - position.height / 2;
+            
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+        });
+        
+        btn.addEventListener('mouseout', () => {
+            btn.style.transform = 'translate(0px, 0px)';
+        });
+    });
+
+    // --- 3. Vanilla Tilt ---
+    VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+        max: 10,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.2,
+        scale: 1.02
+    });
+
+    // --- 4. Initial Confetti Burst ---
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#ff7096', '#ff477e', '#c9184a']
+        });
+        confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#ff7096', '#ff477e', '#c9184a']
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    }());
+
+    // --- 5. Premium GSAP Animations ---
+    gsap.from(".badge", {
+        y: -30,
+        opacity: 0,
+        duration: 1,
+        ease: "elastic.out(1, 0.5)"
+    });
+
+    gsap.from(".fade-up-stagger", {
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "back.out(1.7)",
+        delay: 0.2
+    });
+
+    const sections = gsap.utils.toArray('.fade-up');
+    sections.forEach(section => {
+        gsap.from(section, {
+            scrollTrigger: {
+                trigger: section,
+                start: "top 80%",
+                toggleActions: "play none none reverse"
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "back.out(1.5)"
+        });
+    });
+
+    gsap.from(".tilt-card", {
+        scrollTrigger: {
+            trigger: "#legends",
+            start: "top 70%"
+        },
+        y: 60,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out"
+    });
+
+    // --- 6. Stats Counter ---
+    const counters = document.querySelectorAll('.counter');
+    counters.forEach(counter => {
+        ScrollTrigger.create({
+            trigger: "#stats",
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 2500; // 2.5 seconds
+                const step = target / (duration / 16); 
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCounter();
+            }
+        });
+    });
+
+    // --- 7. Audio Controls ---
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-toggle');
+    const musicIcon = musicBtn.querySelector('i');
+    let isPlaying = false;
+    music.volume = 0.3;
+
+    musicBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            music.pause();
+            musicIcon.classList.replace('ph-speaker-high', 'ph-speaker-slash');
+        } else {
+            music.play().catch(e => console.log("Audio play failed:", e));
+            musicIcon.classList.replace('ph-speaker-slash', 'ph-speaker-high');
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // --- 8. AI Generator Logic ---
+    const generateBtn = document.getElementById('generate-btn');
+    const nameInput = document.getElementById('guest-name');
+    const outputDiv = document.getElementById('ai-output');
+    const typingIndicator = document.querySelector('.typing-indicator');
+    const generatedMessage = document.getElementById('generated-message');
+
+    const intros = [
+        "Beep boop! Hello {name}.",
+        "Initializing gratitude protocol for {name}...",
+        "Neural network confirms: {name} is awesome.",
+        "Hey {name}!"
+    ];
+    
+    const bodies = [
+        "Your wishes totally made my day unforgettable.",
+        "I analyzed all my birthday messages, and yours had the highest energy levels.",
+        "Thanks for being a core memory in my system today.",
+        "Your message was the perfect upgrade to my birthday firmware."
+    ];
+
+    const outtros = [
+        "You're a legend! ❤️",
+        "Keep shining! ✨",
+        "Stay awesome! 🚀",
+        "Sending virtual high-fives! 🙌"
+    ];
+
+    generateBtn.addEventListener('click', () => {
+        const name = nameInput.value.trim() || "Guest";
+        
+        outputDiv.classList.remove('hidden');
+        generatedMessage.style.display = 'none';
+        typingIndicator.style.display = 'flex';
+        
+        // Bounce animation on the core
+        gsap.to(".ai-core", { scale: 1.5, duration: 0.3, yoyo: true, repeat: 3 });
+
+        setTimeout(() => {
+            const intro = intros[Math.floor(Math.random() * intros.length)].replace('{name}', name);
+            const body = bodies[Math.floor(Math.random() * bodies.length)];
+            const outtro = outtros[Math.floor(Math.random() * outtros.length)];
+            
+            typingIndicator.style.display = 'none';
+            generatedMessage.style.display = 'block';
+            
+            generatedMessage.innerHTML = '';
+            const fullMessage = `${intro} ${body} ${outtro}`;
+            
+            let i = 0;
+            const typeWriter = setInterval(() => {
+                generatedMessage.innerHTML += fullMessage.charAt(i);
+                i++;
+                if (i >= fullMessage.length) {
+                    clearInterval(typeWriter);
+                }
+            }, 30);
+
+        }, 1500);
+    });
+
+    // --- 9. Catch the Cake Mini-Game ---
+    const startGameBtn = document.getElementById('start-game');
+    const gameArea = document.getElementById('game-area');
+    const scoreDisplay = document.getElementById('score');
+    let score = 0;
+    let gameInterval;
+    let isGameRunning = false;
+
+    const cakes = ['🎂', '🧁', '🍰', '🎁', '🎈'];
+
+    function spawnCake() {
+        if (!isGameRunning) return;
+
+        const cake = document.createElement('div');
+        cake.classList.add('cake');
+        cake.innerText = cakes[Math.floor(Math.random() * cakes.length)];
+        
+        const maxX = gameArea.clientWidth - 80;
+        const maxY = gameArea.clientHeight - 80;
+        cake.style.left = Math.random() * maxX + 'px';
+        cake.style.top = Math.random() * maxY + 'px';
+
+        gameArea.appendChild(cake);
+        
+        // Spring-in animation
+        gsap.from(cake, { scale: 0, rotation: 180, duration: 0.5, ease: "back.out(2)" });
+
+        cake.addEventListener('click', () => {
+            score++;
+            scoreDisplay.innerText = score;
+            
+            const rect = cake.getBoundingClientRect();
+            confetti({
+                particleCount: 15,
+                spread: 40,
+                origin: {
+                    x: (rect.left + rect.width / 2) / window.innerWidth,
+                    y: (rect.top + rect.height / 2) / window.innerHeight
+                },
+                colors: ['#ff477e', '#ff7096']
+            });
+
+            // Pop out animation
+            gsap.to(cake, { scale: 0, opacity: 0, duration: 0.2, onComplete: () => cake.remove() });
+        });
+
+        setTimeout(() => {
+            if (cake.parentElement) {
+                gsap.to(cake, { scale: 0, opacity: 0, duration: 0.3, onComplete: () => cake.remove() });
+            }
+        }, 1500 + Math.random() * 800); 
+    }
+
+    startGameBtn.addEventListener('click', () => {
+        if (isGameRunning) return;
+        
+        isGameRunning = true;
+        score = 0;
+        scoreDisplay.innerText = score;
+        
+        // Fly out animation
+        gsap.to(startGameBtn, { y: -50, opacity: 0, duration: 0.3, onComplete: () => startGameBtn.style.display = 'none' });
+        
+        gameInterval = setInterval(spawnCake, 700);
+
+        setTimeout(() => {
+            clearInterval(gameInterval);
+            isGameRunning = false;
+            
+            const remaining = document.querySelectorAll('.cake');
+            remaining.forEach(c => gsap.to(c, { scale: 0, opacity: 0, duration: 0.3, onComplete: () => c.remove() }));
+            
+            startGameBtn.innerText = "Play Again";
+            startGameBtn.style.display = 'flex';
+            gsap.to(startGameBtn, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.5)" });
+            
+            if(score > 10) {
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#ff477e', '#ff7096', '#c9184a']
+                });
+            }
+        }, 15000);
+    });
+
+    // --- 10. Surprise Me Button ---
+    const surpriseBtn = document.getElementById('surprise-btn');
+    surpriseBtn.addEventListener('click', () => {
+        confetti({
+            particleCount: 200,
+            spread: 120,
+            origin: { y: 1 },
+            colors: ['#ff7096', '#ff477e', '#c9184a'],
+            startVelocity: 60
+        });
+        
+        const sectionsIds = ['#legends', '#ai-generator', '#highlights', '#game'];
+        const randomSection = document.querySelector(sectionsIds[Math.floor(Math.random() * sectionsIds.length)]);
+        randomSection.scrollIntoView({ behavior: 'smooth' });
+    });
+});
