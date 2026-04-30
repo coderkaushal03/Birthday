@@ -263,57 +263,100 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1500);
     });
 
-    // --- 9. Catch the Cake Mini-Game ---
+    // --- 9. Arcade Catch the Cake Mini-Game ---
     const startGameBtn = document.getElementById('start-game');
     const gameArea = document.getElementById('game-area');
     const scoreDisplay = document.getElementById('score');
+    const timerBar = document.querySelector('.timer-bar');
+    const timerFill = document.querySelector('.timer-fill');
+    
     let score = 0;
     let gameInterval;
     let isGameRunning = false;
 
-    const cakes = ['🎂', '🧁', '🍰', '🎁', '🎈'];
+    const standardCakes = ['🎂', '🧁', '🍰'];
+    const rareGifts = ['🎁'];
 
-    function spawnCake() {
+    function spawnItem() {
         if (!isGameRunning) return;
 
-        const cake = document.createElement('div');
-        cake.classList.add('cake');
-        cake.innerText = cakes[Math.floor(Math.random() * cakes.length)];
+        const isRare = Math.random() < 0.15; // 15% chance for a rare gift
+        const itemArray = isRare ? rareGifts : standardCakes;
+        const emoji = itemArray[Math.floor(Math.random() * itemArray.length)];
+        const points = isRare ? 5 : 1;
+
+        const item = document.createElement('div');
+        item.classList.add('cake');
+        item.innerText = emoji;
+        // Make rare gifts larger and glowing
+        if (isRare) {
+            item.style.fontSize = '4rem';
+            item.style.filter = 'drop-shadow(0 0 15px gold)';
+        }
 
         const maxX = gameArea.clientWidth - 80;
-        const maxY = gameArea.clientHeight - 80;
-        cake.style.left = Math.random() * maxX + 'px';
-        cake.style.top = Math.random() * maxY + 'px';
+        item.style.left = Math.random() * maxX + 'px';
+        item.style.top = '100%'; // Start at bottom
 
-        gameArea.appendChild(cake);
+        gameArea.appendChild(item);
 
-        // Spring-in animation
-        gsap.from(cake, { scale: 0, rotation: 180, duration: 0.5, ease: "back.out(2)" });
-
-        cake.addEventListener('click', () => {
-            score++;
-            scoreDisplay.innerText = score;
-
-            const rect = cake.getBoundingClientRect();
-            confetti({
-                particleCount: 15,
-                spread: 40,
-                origin: {
-                    x: (rect.left + rect.width / 2) / window.innerWidth,
-                    y: (rect.top + rect.height / 2) / window.innerHeight
-                },
-                colors: ['#ff477e', '#ff7096']
-            });
-
-            // Pop out animation
-            gsap.to(cake, { scale: 0, opacity: 0, duration: 0.2, onComplete: () => cake.remove() });
+        // Float upwards animation
+        const floatDuration = 2 + Math.random() * 2; // 2 to 4 seconds
+        gsap.to(item, {
+            y: -(gameArea.clientHeight + 100),
+            duration: floatDuration,
+            ease: "none",
+            onComplete: () => {
+                if (item.parentElement) item.remove();
+            }
+        });
+        
+        // Add slight horizontal drift
+        gsap.to(item, {
+            x: `+=${(Math.random() - 0.5) * 100}`,
+            duration: floatDuration,
+            ease: "sine.inOut"
         });
 
-        setTimeout(() => {
-            if (cake.parentElement) {
-                gsap.to(cake, { scale: 0, opacity: 0, duration: 0.3, onComplete: () => cake.remove() });
-            }
-        }, 1500 + Math.random() * 800);
+        item.addEventListener('click', (e) => {
+            if (!isGameRunning) return;
+            score += points;
+            scoreDisplay.innerText = score;
+
+            const rect = gameArea.getBoundingClientRect();
+            
+            // Spawn Floating Text
+            const floatingText = document.createElement('div');
+            floatingText.classList.add('floating-text');
+            floatingText.innerText = `+${points}`;
+            floatingText.style.left = e.clientX - rect.left + 'px';
+            floatingText.style.top = e.clientY - rect.top + 'px';
+            if (isRare) floatingText.style.color = 'gold';
+            
+            gameArea.appendChild(floatingText);
+            
+            gsap.to(floatingText, {
+                y: -50,
+                opacity: 0,
+                duration: 0.8,
+                onComplete: () => floatingText.remove()
+            });
+
+            // Mini Confetti
+            confetti({
+                particleCount: isRare ? 40 : 15,
+                spread: 50,
+                origin: {
+                    x: e.clientX / window.innerWidth,
+                    y: e.clientY / window.innerHeight
+                },
+                colors: isRare ? ['#ffd700', '#ffaa00'] : ['#ff477e', '#00f5d4']
+            });
+
+            // Pop out item
+            gsap.killTweensOf(item);
+            gsap.to(item, { scale: 0, opacity: 0, duration: 0.15, onComplete: () => item.remove() });
+        });
     }
 
     startGameBtn.addEventListener('click', () => {
@@ -322,29 +365,38 @@ document.addEventListener('DOMContentLoaded', () => {
         isGameRunning = true;
         score = 0;
         scoreDisplay.innerText = score;
+        
+        timerBar.style.display = 'block';
+        gsap.set(timerFill, { scaleX: 1 });
+        gsap.to(timerFill, { scaleX: 0, duration: 15, ease: "none" });
 
-        // Fly out animation
+        // Fly out button
         gsap.to(startGameBtn, { y: -50, opacity: 0, duration: 0.3, onComplete: () => startGameBtn.style.display = 'none' });
 
-        gameInterval = setInterval(spawnCake, 700);
+        gameInterval = setInterval(spawnItem, 600); // Spawn faster
 
         setTimeout(() => {
             clearInterval(gameInterval);
             isGameRunning = false;
+            
+            timerBar.style.display = 'none';
 
             const remaining = document.querySelectorAll('.cake');
-            remaining.forEach(c => gsap.to(c, { scale: 0, opacity: 0, duration: 0.3, onComplete: () => c.remove() }));
+            remaining.forEach(c => {
+                gsap.killTweensOf(c);
+                gsap.to(c, { scale: 0, opacity: 0, duration: 0.3, onComplete: () => c.remove() });
+            });
 
             startGameBtn.innerText = "Play Again";
             startGameBtn.style.display = 'flex';
             gsap.to(startGameBtn, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.5)" });
 
-            if (score > 10) {
+            if (score > 15) {
                 confetti({
-                    particleCount: 150,
-                    spread: 80,
+                    particleCount: 200,
+                    spread: 100,
                     origin: { y: 0.6 },
-                    colors: ['#ff477e', '#ff7096', '#c9184a']
+                    colors: ['#ff477e', '#ff7096', '#00f5d4', '#ffd700']
                 });
             }
         }, 15000);
