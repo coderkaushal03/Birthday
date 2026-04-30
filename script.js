@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     x: e.clientX / window.innerWidth,
                     y: e.clientY / window.innerHeight
                 },
-                colors: isRare ? ['#ffd700', '#ffaa00'] : ['#ff477e', '#00f5d4']
+                colors: isRare ? ['#ffd700', '#ffaa00'] : ['#ff477e', '#ff7096']
             });
 
             // Pop out item
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     particleCount: 200,
                     spread: 100,
                     origin: { y: 0.6 },
-                    colors: ['#ff477e', '#ff7096', '#00f5d4', '#ffd700']
+                    colors: ['#ff477e', '#ff7096', '#c9184a', '#ffd700']
                 });
             }
         }, 15000);
@@ -425,14 +425,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 particleCount: 100,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#ff477e', '#ff7096', '#00f5d4']
+                colors: ['#ff477e', '#ff7096', '#c9184a']
             });
             
             // Change button state
             this.innerHTML = '<i class="ph ph-check-circle"></i> Claimed!';
-            this.style.background = 'rgba(0, 245, 212, 0.2)';
-            this.style.color = '#00f5d4';
-            this.style.border = '1px solid rgba(0, 245, 212, 0.4)';
+            this.style.background = 'rgba(255, 71, 126, 0.2)';
+            this.style.color = '#ff477e';
+            this.style.border = '1px solid rgba(255, 71, 126, 0.4)';
             this.disabled = true;
         });
     });
