@@ -413,9 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
             startVelocity: 60
         });
 
-        const sectionsIds = ['#legends', '#ai-generator', '#highlights', '#game'];
-        const randomSection = document.querySelector(sectionsIds[Math.floor(Math.random() * sectionsIds.length)]);
-        randomSection.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // --- 11. Wishlist Claim Buttons ---
