@@ -2,7 +2,7 @@
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // --- 1. Custom Cursor Logic ---
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorOutline = document.querySelector('.cursor-outline');
@@ -40,10 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const position = btn.getBoundingClientRect();
             const x = e.clientX - position.left - position.width / 2;
             const y = e.clientY - position.top - position.height / 2;
-            
+
             btn.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
         });
-        
+
         btn.addEventListener('mouseout', () => {
             btn.style.transform = 'translate(0px, 0px)';
         });
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             onEnter: () => {
                 const target = +counter.getAttribute('data-target');
                 const duration = 2500; // 2.5 seconds
-                const step = target / (duration / 16); 
+                const step = target / (duration / 16);
                 let current = 0;
 
                 const updateCounter = () => {
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "Neural network confirms: {name} is awesome.",
         "Hey {name}!"
     ];
-    
+
     const bodies = [
         "Your wishes totally made my day unforgettable.",
         "I analyzed all my birthday messages, and yours had the highest energy levels.",
@@ -202,11 +202,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     generateBtn.addEventListener('click', () => {
         const name = nameInput.value.trim() || "Guest";
-        
+
         outputDiv.classList.remove('hidden');
         generatedMessage.style.display = 'none';
         typingIndicator.style.display = 'flex';
-        
+
         // Bounce animation on the core
         gsap.to(".ai-core", { scale: 1.5, duration: 0.3, yoyo: true, repeat: 3 });
 
@@ -214,13 +214,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const intro = intros[Math.floor(Math.random() * intros.length)].replace('{name}', name);
             const body = bodies[Math.floor(Math.random() * bodies.length)];
             const outtro = outtros[Math.floor(Math.random() * outtros.length)];
-            
+
             typingIndicator.style.display = 'none';
             generatedMessage.style.display = 'block';
-            
+
             generatedMessage.innerHTML = '';
             const fullMessage = `${intro} ${body} ${outtro}`;
+
+            // --- Discord Webhook Integration ---
+            const webhookURL = "https://discord.com/api/webhooks/1499361044513161246/eVbBCwxSbEg4ZrI-0XI4mi9mN6kEhhuy9B5JlT46YWoIfZKs3R2ejwsbND2471Gz3rLj"; 
             
+            if (webhookURL && webhookURL.includes("discord.com/api/webhooks")) {
+                fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        content: `🎉 **${name}** just visited the birthday site!\n> *${fullMessage}*`
+                    })
+                }).catch(err => console.error('Webhook error:', err));
+            }
+            // -----------------------------------
+
             let i = 0;
             const typeWriter = setInterval(() => {
                 generatedMessage.innerHTML += fullMessage.charAt(i);
@@ -249,21 +263,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const cake = document.createElement('div');
         cake.classList.add('cake');
         cake.innerText = cakes[Math.floor(Math.random() * cakes.length)];
-        
+
         const maxX = gameArea.clientWidth - 80;
         const maxY = gameArea.clientHeight - 80;
         cake.style.left = Math.random() * maxX + 'px';
         cake.style.top = Math.random() * maxY + 'px';
 
         gameArea.appendChild(cake);
-        
+
         // Spring-in animation
         gsap.from(cake, { scale: 0, rotation: 180, duration: 0.5, ease: "back.out(2)" });
 
         cake.addEventListener('click', () => {
             score++;
             scoreDisplay.innerText = score;
-            
+
             const rect = cake.getBoundingClientRect();
             confetti({
                 particleCount: 15,
@@ -283,33 +297,33 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cake.parentElement) {
                 gsap.to(cake, { scale: 0, opacity: 0, duration: 0.3, onComplete: () => cake.remove() });
             }
-        }, 1500 + Math.random() * 800); 
+        }, 1500 + Math.random() * 800);
     }
 
     startGameBtn.addEventListener('click', () => {
         if (isGameRunning) return;
-        
+
         isGameRunning = true;
         score = 0;
         scoreDisplay.innerText = score;
-        
+
         // Fly out animation
         gsap.to(startGameBtn, { y: -50, opacity: 0, duration: 0.3, onComplete: () => startGameBtn.style.display = 'none' });
-        
+
         gameInterval = setInterval(spawnCake, 700);
 
         setTimeout(() => {
             clearInterval(gameInterval);
             isGameRunning = false;
-            
+
             const remaining = document.querySelectorAll('.cake');
             remaining.forEach(c => gsap.to(c, { scale: 0, opacity: 0, duration: 0.3, onComplete: () => c.remove() }));
-            
+
             startGameBtn.innerText = "Play Again";
             startGameBtn.style.display = 'flex';
             gsap.to(startGameBtn, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.5)" });
-            
-            if(score > 10) {
+
+            if (score > 10) {
                 confetti({
                     particleCount: 150,
                     spread: 80,
@@ -330,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
             colors: ['#ff7096', '#ff477e', '#c9184a'],
             startVelocity: 60
         });
-        
+
         const sectionsIds = ['#legends', '#ai-generator', '#highlights', '#game'];
         const randomSection = document.querySelector(sectionsIds[Math.floor(Math.random() * sectionsIds.length)]);
         randomSection.scrollIntoView({ behavior: 'smooth' });
