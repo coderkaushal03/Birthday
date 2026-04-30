@@ -9,27 +9,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let isMobile = window.innerWidth <= 768;
 
     if (!isMobile) {
+        let rafId;
         window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-
-            // Add slight delay to outline
-            cursorOutline.style.left = `${posX}px`;
-            cursorOutline.style.top = `${posY}px`;
+            if (rafId) return;
+            rafId = requestAnimationFrame(() => {
+                cursorDot.style.left = `${e.clientX}px`;
+                cursorDot.style.top = `${e.clientY}px`;
+                cursorOutline.style.left = `${e.clientX}px`;
+                cursorOutline.style.top = `${e.clientY}px`;
+                rafId = null;
+            });
         });
 
-        // Add hover effects for interactive elements
         const interactives = document.querySelectorAll('button, a, input, .story-item, .cake, .tilt-card');
         interactives.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                document.body.classList.add('cursor-hover');
-            });
-            el.addEventListener('mouseleave', () => {
-                document.body.classList.remove('cursor-hover');
-            });
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
         });
     }
 
@@ -49,39 +44,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 3. Vanilla Tilt ---
+    // --- 3. Vanilla Tilt (optimised: no glare, lower speed) ---
     VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
-        max: 10,
-        speed: 400,
-        glare: true,
-        "max-glare": 0.2,
-        scale: 1.02
+        max: 8,
+        speed: 600,
+        glare: false,
+        scale: 1.01,
+        gyroscope: false
     });
 
-    // --- 4. Initial Confetti Burst ---
-    const duration = 3000;
-    const end = Date.now() + duration;
-
-    (function frame() {
+    // --- 4. Initial Confetti Burst (reduced) ---
+    setTimeout(() => {
         confetti({
-            particleCount: 5,
+            particleCount: 60,
             angle: 60,
             spread: 55,
             origin: { x: 0 },
             colors: ['#ff7096', '#ff477e', '#c9184a']
         });
         confetti({
-            particleCount: 5,
+            particleCount: 60,
             angle: 120,
             spread: 55,
             origin: { x: 1 },
             colors: ['#ff7096', '#ff477e', '#c9184a']
         });
-
-        if (Date.now() < end) {
-            requestAnimationFrame(frame);
-        }
-    }());
+    }, 800);
 
     // --- 5. Premium GSAP Animations ---
     gsap.from(".badge", {
@@ -105,13 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.from(section, {
             scrollTrigger: {
                 trigger: section,
-                start: "top 80%",
-                toggleActions: "play none none reverse"
+                start: "top 85%",
+                toggleActions: "play none none none"
             },
-            y: 50,
+            y: 40,
             opacity: 0,
-            duration: 1,
-            ease: "back.out(1.5)"
+            duration: 0.7,
+            ease: "power2.out"
         });
     });
 
@@ -119,13 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.from(card, {
             scrollTrigger: {
                 trigger: card,
-                start: "top 85%",
-                toggleActions: "play none none reverse"
+                start: "top 90%",
+                toggleActions: "play none none none"
             },
-            y: 60,
+            y: 40,
             opacity: 0,
-            duration: 0.8,
-            ease: "power3.out"
+            duration: 0.6,
+            ease: "power2.out"
         });
     });
 
