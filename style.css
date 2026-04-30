@@ -390,6 +390,56 @@ h1, h2, h3, h4 {
     font-size: 1.2rem;
 }
 
+/* Spotify Playlist */
+.playlist-box {
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+/* Wishlist Section */
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.wishlist-card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.wishlist-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.wishlist-info {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    transform: translateZ(20px);
+}
+
+.wishlist-info h4 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.small-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 50px;
+}
+
 /* Wall of Legends */
 .legends-grid {
     display: grid;

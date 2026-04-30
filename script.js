@@ -115,16 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    gsap.from(".tilt-card", {
-        scrollTrigger: {
-            trigger: "#legends",
-            start: "top 70%"
-        },
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out"
+    gsap.utils.toArray(".tilt-card").forEach(card => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            },
+            y: 60,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out"
+        });
     });
 
     // --- 6. Stats Counter ---
