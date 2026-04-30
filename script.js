@@ -174,6 +174,20 @@ document.addEventListener('DOMContentLoaded', () => {
         isPlaying = !isPlaying;
     });
 
+    // --- 7. Dynamic Last Wish Time ---
+    const timeElement = document.getElementById('last-wish-time');
+    if (timeElement) {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - 10);
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        timeElement.innerText = `${hours}:${minutes} ${ampm}`;
+    }
+
     // --- 8. AI Generator Logic ---
     const generateBtn = document.getElementById('generate-btn');
     const nameInput = document.getElementById('guest-name');
