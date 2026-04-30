@@ -365,4 +365,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomSection = document.querySelector(sectionsIds[Math.floor(Math.random() * sectionsIds.length)]);
         randomSection.scrollIntoView({ behavior: 'smooth' });
     });
+
+    // --- 11. Wishlist Claim Buttons ---
+    const claimBtns = document.querySelectorAll('.wishlist-card .small-btn');
+    claimBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Trigger confetti
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff477e', '#ff7096', '#00f5d4']
+            });
+            
+            // Change button state
+            this.innerHTML = '<i class="ph ph-check-circle"></i> Claimed!';
+            this.style.background = 'rgba(0, 245, 212, 0.2)';
+            this.style.color = '#00f5d4';
+            this.style.border = '1px solid rgba(0, 245, 212, 0.4)';
+            this.disabled = true;
+        });
+    });
 });
