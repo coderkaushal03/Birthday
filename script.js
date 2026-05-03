@@ -146,35 +146,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 7b. Wall of Legends — Infinite Marquee ---
     const wishes = [
-        { name: "Tanmay", message: "Happy birthday bhaiii 💖", gen: "male" },
-        { name: "Priya", message: "Many more years of happiness to you! 🎉", gen: "female" },
-        { name: "Rahul", message: "Bhai stay blessed always 🙌", gen: "male" },
-        { name: "Sneha", message: "HBD Kaushal! You're amazing 💕", gen: "female" },
-        { name: "Arjun", message: "Keep grinding bro, the best is yet to come 🚀", gen: "male" },
-        { name: "Anjali", message: "Wishing you all the love and joy 🥳", gen: "female" },
-        { name: "Vikram", message: "Happy birthday legend! 🎂", gen: "male" },
-        { name: "Meera", message: "May your day be as bright as your smile ✨", gen: "female" },
-        { name: "Aditya", message: "Proud of everything you've achieved bhai 💪", gen: "male" },
-        { name: "Ritika", message: "Celebrate yourself today and always 🎊", gen: "female" },
-        { name: "Yash", message: "HBD bhai! Level 20 unlocked 🎮", gen: "male" },
-        { name: "Khushi", message: "You deserve all the happiness in the world 🌸", gen: "female" },
-        { name: "Dev", message: "Bhai we're gonna make this year iconic 🔥", gen: "male" },
-        { name: "Pooja", message: "Happy birthday dear! Keep shining 🌟", gen: "female" },
-        { name: "Nikhil", message: "Cheers to 20 years of awesomeness! 🥂", gen: "male" },
+        { name: "Balaji", message: "Azz to Happy wala din hai kisi ka.... 😋😋" },
+        { name: "Tushar", message: "Happy Birthday brother" },
+        { name: "Devansh", message: "happy birthday bhai jaan" },
+        { name: "Kirti", message: "Happieee birthday laadale 💪🏻😎🤗🥳" },
+        { name: "Gaurav", message: "happy birthday" },
+        { name: "Kajal", message: "Happy Birthday 🎂" },
+        { name: "Sonu", message: "Janmdin ki Bahutt bahut badhaiya mere bhai 🫂✨💗" },
+        { name: "Jhalak", message: "Happiest birthday kaushal 👀🎂🎂🎉🧿✨" },
+        { name: "Maulik", message: "Happy birthday bhai 🎊🥂" },
+        { name: "Janvi", message: "Happy birthday kaushal 🥳" },
+        { name: "Harshita", message: "Happy birthday kaushal ❤️🤝" },
+        { name: "Harshal", message: "Happy Birthday Kaushal 🥂💗🥳....Stay happy always ✨" },
+        { name: "Harshita Ratnawat", message: "happy birthday coder kaushal" },
+        { name: "Indraj", message: "happy birthday bhai✨" },
+        { name: "Himanshi", message: "hapieest birthday kaushal" },
+        { name: "Shalini Ma'am", message: "Happy Birthday bro 🎉🥳" },
+        { name: "Vanshika", message: "Happy Birthday kaushal😇😇" },
+        { name: "Rohan", message: "Happy birthday bhaiii 😍🤙🏻" },
+        { name: "Hitesh", message: "Happy birthday Koli Flower 🌷🌹🌹" },
+        { name: "Praagya", message: "Happy Birthday bhai 🎉🎉🎉🫂" },
+        { name: "Priyam", message: "Happy Birthday Bhaiii 🫂🎊🍰" },
+        { name: "Yash Balani", message: "Happy Birthday Bhai 🥳✨" },
+        { name: "Jiya", message: "Happy birthday Kaushal ✨️🎂🎊💗" },
+        { name: "Prisha", message: "Happiest Birthdayyy🤍" },
+        { name: "Kritika", message: "Happpyyy birthday kaushal✨️" },
+        { name: "Keshav Gupta", message: "Happy birthday bhai 🫂❤️" },
+        { name: "Harsh Gwala", message: "happy birthday bhai❤️" },
+        { name: "Vansh Bhamota", message: "happy birthday bhai" },
+        { name: "Angel", message: "Happiest Birthday 🎂 ✨" },
+        { name: "Nano", message: "Happy bday polio🚀" },
+        { name: "Vansh Sharma", message: "HAPPPPYYYY BIRTHDAY BHAII KOOO🎈🎈🎈" },
+        { name: "Lalit", message: "Happy Birthday bhai ✨" },
+        { name: "Purujit", message: "Happy birthday Bhai 🎉" },
+        { name: "Bhavesh", message: "Happy birthday bhaii ❤️" },
+        { name: "Sakshi", message: "Happy Birthday Kaushal🎂🎂✨🎊🎉" },
+        { name: "Krati", message: "Happy Birthday yrrrrr" },
+        { name: "Tanmay Singh", message: "Happy birthday bhai" },
+        { name: "Khushboo", message: "Happiest Birthday Kaushal 🫶🏻🥳" },
+        { name: "Vedd", message: "Happy Birthday bhai 🧿✨" },
+        { name: "Shahid", message: "happy birthday bhai" },
+        { name: "Shabd", message: "Happy Birthday kaushal bhaiya ✨💪🏻" },
+        { name: "Lakshya Matha", message: "Happy birthday londe🫂🫶🏻" },
+        { name: "Bhawna Didi", message: "happy birthday✨" },
+        { name: "Harshit Pathak", message: "Happy birthday bro ✨" },
+        { name: "Roshni", message: "Happy bday🎂🍫🍫🍫" },
+        { name: "Umesh", message: "Happy birthday ladli 💖🎂🥳🥳" },
+        { name: "Unnati", message: "Happy birthday Kaushal 🎂🎉" },
+        { name: "Himanshu Agrawal", message: "Happy birthday bhai 🥂🥂" },
+        { name: "Sunil", message: "Happy Birthday kaushal bhai" },
+        { name: "Aditya Hada", message: "happy birthday sharmaji ke bete" },
+        { name: "Tanmay Sharma", message: "Happy birthday 🫂💖" },
+        { name: "Lokesh", message: "Happy Birthday Bhai 💗" },
+        { name: "Tanishq", message: "Bhaiii happyy b'dayyy🫂😘🫶🏻.....Janamdinnki shubhkaanaayee✨" },
+        { name: "Keshav", message: "happy birthday developer" },
+        { name: "Ravi Sir", message: "Happy birthday babu✨🎉🎊" },
+        { name: "Poha", message: "Janmdin ki badhai ho bhai 🫂❤️🥳😘" },
+        { name: "Riyansh", message: "Happy Birthday bhai 🥳💐" },
+        { name: "Himanshu Sharma", message: "Happy birthday bhai 🥳🥂" },
+        { name: "Yash", message: "Happy birthday bhai" },
+        { name: "Garima", message: "OMGGG!!! Happiest birthday Kaushalllllll🫶🏻🌻🌻......Hapiiiiessttt bdayyyyy!" },
+        { name: "Vedant", message: "Happy birthday dost" },
+        { name: "Karan", message: "happy birthday brother from another mother❤️" },
     ];
 
-    function getAvatarUrl(name, gen) {
-        const seed = encodeURIComponent(name.toLowerCase());
-        if (gen === 'female') {
-            return `https://api.dicebear.com/8.x/lorelei/svg?seed=${seed}&backgroundColor=ffd5dc,ffdfbf`;
-        }
-        return `https://api.dicebear.com/8.x/adventurer/svg?seed=${seed}&backgroundColor=b6e3f4,bde0fe`;
+    function getAvatarUrl(name) {
+        const seed = encodeURIComponent(name.toLowerCase().replace(/['\s]+/g, '-'));
+        return `https://api.dicebear.com/8.x/notionists-neutral/svg?seed=${seed}&backgroundColor=ffd5dc,ffdfbf,fce7f3`;
     }
 
     function buildMarqueeCard(wish) {
         return `
             <div class="wish-card glass-panel">
-                <img src="${getAvatarUrl(wish.name, wish.gen)}" 
+                <img src="${getAvatarUrl(wish.name)}" 
                      alt="${wish.name}" class="wish-avatar" loading="lazy">
                 <div class="wish-content">
                     <strong>${wish.name}</strong>
@@ -185,20 +229,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const track = document.getElementById('marquee-track');
     if (track) {
-        // Build cards × 2 for seamless infinite loop
         const html = wishes.map(buildMarqueeCard).join('');
-        track.innerHTML = html + html; // duplicate for seamless loop
+        track.innerHTML = html + html; // duplicate for seamless infinite loop
 
-        // Pause entire track on any card hover
+        // Pause on hover of any card
         track.querySelectorAll('.wish-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                track.style.animationPlayState = 'paused';
-            });
-            card.addEventListener('mouseleave', () => {
-                track.style.animationPlayState = 'running';
-            });
+            card.addEventListener('mouseenter', () => track.style.animationPlayState = 'paused');
+            card.addEventListener('mouseleave', () => track.style.animationPlayState = 'running');
         });
     }
+
 
     // --- 7. Audio Controls ---
     const music = document.getElementById('bg-music');
