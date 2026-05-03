@@ -486,19 +486,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 15000);
     });
 
-    // --- 10. Surprise Me Button ---
-    const surpriseBtn = document.getElementById('surprise-btn');
-    surpriseBtn.addEventListener('click', () => {
-        confetti({
-            particleCount: 200,
-            spread: 120,
-            origin: { y: 1 },
-            colors: ['#ff7096', '#ff477e', '#c9184a'],
-            startVelocity: 60
-        });
+    // --- 10. Background Music Scroll & Spotify Sync ---
+    const partyVibeSection = document.getElementById('party-vibe');
+    if (partyVibeSection && music) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // In Party Vibe section - pause bg music
+                    if (isPlaying) {
+                        music.pause();
+                        musicIcon.classList.replace('ph-speaker-high', 'ph-speaker-slash');
+                    }
+                } else {
+                    // Left Party Vibe section - resume if it was playing
+                    if (isPlaying) {
+                        music.play().catch(e => console.log("Auto-resume blocked"));
+                        musicIcon.classList.replace('ph-speaker-slash', 'ph-speaker-high');
+                    }
+                }
+            });
+        }, { threshold: 0.2 });
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+        observer.observe(partyVibeSection);
+    }
+
+    // Scroll-to-Top Surprise Button
+    const surpriseBtn = document.getElementById('surprise-btn');
+    if (surpriseBtn) {
+        surpriseBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        });
+    }
 
     // --- 11. Wishlist Claim Buttons ---
     const claimBtns = document.querySelectorAll('.wishlist-card .small-btn');

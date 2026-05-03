@@ -281,36 +281,55 @@ h1, h2, h3, h4 {
     align-items: center;
 }
 
-.hero-avatar-wrap {
-    margin: 20px 0 0;
+/* Stories Grid */
+.stories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.story-card {
+    border-radius: 20px;
+    overflow: hidden;
+    height: 480px;
     position: relative;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 50% 40%, rgba(255, 180, 200, 0.8), rgba(255, 130, 160, 0.5));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 40px rgba(255, 71, 126, 0.25), 0 0 80px rgba(255, 71, 126, 0.1);
-    animation: heroFloat 4s ease-in-out infinite;
-    will-change: transform;
+    cursor: zoom-in;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.hero-avatar {
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
-    mix-blend-mode: multiply;
+.story-card:hover {
+    transform: scale(1.03) translateY(-10px);
 }
 
-@keyframes heroFloat {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-12px); }
+.story-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.story-card:hover img {
+    transform: scale(1.1);
 }
 
 @media (max-width: 768px) {
-    .hero-avatar-wrap { width: 160px; height: 160px; }
-    .hero-avatar { width: 140px; height: 140px; }
+    .stories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    .story-card {
+        height: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stories-grid {
+        grid-template-columns: 1fr;
+    }
+    .story-card {
+        height: 450px;
+    }
 }
 
 .badge {
@@ -685,6 +704,20 @@ input[type="text"]:focus {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-auto-rows: 250px;
     gap: 20px;
+}
+
+/* Spotify Container */
+.spotify-container {
+    padding: 20px;
+    border-radius: 24px;
+    max-width: 800px;
+    margin: 40px auto 0;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.spotify-container:hover {
+    transform: translateY(-5px);
 }
 
 .story-item {
