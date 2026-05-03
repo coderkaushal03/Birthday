@@ -281,6 +281,29 @@ h1, h2, h3, h4 {
     align-items: center;
 }
 
+.hero-avatar-wrap {
+    margin: 20px 0 0;
+    position: relative;
+}
+
+.hero-avatar {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 30px rgba(255, 71, 126, 0.3));
+    animation: heroFloat 4s ease-in-out infinite;
+    will-change: transform;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-12px); }
+}
+
+@media (max-width: 768px) {
+    .hero-avatar { width: 140px; height: 140px; }
+}
+
 .badge {
     display: inline-block;
     padding: 8px 20px;
@@ -453,11 +476,69 @@ h1, h2, h3, h4 {
     border-radius: 50px;
 }
 
-/* Wall of Legends */
-.legends-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 40px;
+/* Wall of Legends — Marquee Ticker */
+.marquee-container {
+    overflow: hidden;
+    width: 100%;
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    cursor: default;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: marqueeScroll 40s linear infinite;
+    will-change: transform;
+}
+
+@keyframes marqueeScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.wish-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 24px;
+    border-radius: 16px;
+    min-width: 280px;
+    max-width: 320px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.wish-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(255, 71, 126, 0.2);
+}
+
+.wish-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 71, 126, 0.4);
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.wish-content strong {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.wish-content p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.4;
+    margin: 0;
 }
 
 .legend-card {

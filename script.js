@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
             once: true,
             onEnter: () => {
                 const target = +counter.getAttribute('data-target');
-                const duration = 2500; // 2.5 seconds
+                const duration = 2500;
                 const step = target / (duration / 16);
                 let current = 0;
 
@@ -143,6 +143,62 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // --- 7b. Wall of Legends — Infinite Marquee ---
+    const wishes = [
+        { name: "Tanmay", message: "Happy birthday bhaiii 💖", gen: "male" },
+        { name: "Priya", message: "Many more years of happiness to you! 🎉", gen: "female" },
+        { name: "Rahul", message: "Bhai stay blessed always 🙌", gen: "male" },
+        { name: "Sneha", message: "HBD Kaushal! You're amazing 💕", gen: "female" },
+        { name: "Arjun", message: "Keep grinding bro, the best is yet to come 🚀", gen: "male" },
+        { name: "Anjali", message: "Wishing you all the love and joy 🥳", gen: "female" },
+        { name: "Vikram", message: "Happy birthday legend! 🎂", gen: "male" },
+        { name: "Meera", message: "May your day be as bright as your smile ✨", gen: "female" },
+        { name: "Aditya", message: "Proud of everything you've achieved bhai 💪", gen: "male" },
+        { name: "Ritika", message: "Celebrate yourself today and always 🎊", gen: "female" },
+        { name: "Yash", message: "HBD bhai! Level 20 unlocked 🎮", gen: "male" },
+        { name: "Khushi", message: "You deserve all the happiness in the world 🌸", gen: "female" },
+        { name: "Dev", message: "Bhai we're gonna make this year iconic 🔥", gen: "male" },
+        { name: "Pooja", message: "Happy birthday dear! Keep shining 🌟", gen: "female" },
+        { name: "Nikhil", message: "Cheers to 20 years of awesomeness! 🥂", gen: "male" },
+    ];
+
+    function getAvatarUrl(name, gen) {
+        const seed = encodeURIComponent(name.toLowerCase());
+        if (gen === 'female') {
+            return `https://api.dicebear.com/8.x/lorelei/svg?seed=${seed}&backgroundColor=ffd5dc,ffdfbf`;
+        }
+        return `https://api.dicebear.com/8.x/adventurer/svg?seed=${seed}&backgroundColor=b6e3f4,bde0fe`;
+    }
+
+    function buildMarqueeCard(wish) {
+        return `
+            <div class="wish-card glass-panel">
+                <img src="${getAvatarUrl(wish.name, wish.gen)}" 
+                     alt="${wish.name}" class="wish-avatar" loading="lazy">
+                <div class="wish-content">
+                    <strong>${wish.name}</strong>
+                    <p>"${wish.message}"</p>
+                </div>
+            </div>`;
+    }
+
+    const track = document.getElementById('marquee-track');
+    if (track) {
+        // Build cards × 2 for seamless infinite loop
+        const html = wishes.map(buildMarqueeCard).join('');
+        track.innerHTML = html + html; // duplicate for seamless loop
+
+        // Pause entire track on any card hover
+        track.querySelectorAll('.wish-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                track.style.animationPlayState = 'paused';
+            });
+            card.addEventListener('mouseleave', () => {
+                track.style.animationPlayState = 'running';
+            });
+        });
+    }
 
     // --- 7. Audio Controls ---
     const music = document.getElementById('bg-music');
