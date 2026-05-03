@@ -308,14 +308,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const generatedMessage = document.getElementById('generated-message');
 
     const intros = [
-        "Initializing hyper-gratitude protocol for {name}...",
-        "Beep boop! My neural processors just peaked because of {name}.",
-        "Accessing core memories... Found a high-priority entry for {name}.",
-        "Target identified: {name}. Status: Absolutely Legend.",
-        "Yo {name}! My birthday algorithm just calculated your awesomeness levels.",
-        "Casting a level 100 'Thank You' spell on {name}...",
-        "Analyzing sentiment packets... {name}, your vibes are immaculate.",
-        "Warning: Joy levels exceeding safety limits because of {name}!"
+        "Hey {name}!",
+        "Yo {name}, you're a legend!",
+        "To my dear friend {name}:",
+        "Much love to you, {name}!",
+        "Hey {name}, you just made my day!",
+        "{name}, you're absolutely amazing!",
+        "Big shoutout to {name}:",
+        "A huge thank you to {name}!"
     ];
 
     const bodies = [
