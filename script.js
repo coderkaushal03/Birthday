@@ -211,8 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     function getAvatarUrl(name) {
-        const seed = encodeURIComponent(name.toLowerCase().replace(/['\s]+/g, '-'));
-        return `https://api.dicebear.com/8.x/micah/svg?seed=${seed}&backgroundColor=ffd5dc,ffdfbf,fce7f3`;
+        const seed = encodeURIComponent(name.trim());
+        // Using high-end initials with vibrant gradients
+        return `https://api.dicebear.com/8.x/initials/svg?seed=${seed}&backgroundType=gradientLinear&fontFamily=Arial,sans-serif&fontWeight=600`;
     }
 
     function buildMarqueeCard(wish) {
