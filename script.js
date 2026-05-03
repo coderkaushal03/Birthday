@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getAvatarUrl(name) {
         const seed = encodeURIComponent(name.toLowerCase().replace(/['\s]+/g, '-'));
-        return `https://api.dicebear.com/8.x/notionists-neutral/svg?seed=${seed}&backgroundColor=ffd5dc,ffdfbf,fce7f3`;
+        return `https://api.dicebear.com/8.x/micah/svg?seed=${seed}&backgroundColor=ffd5dc,ffdfbf,fce7f3`;
     }
 
     function buildMarqueeCard(wish) {
@@ -486,29 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 15000);
     });
 
-    // --- 10. Background Music Scroll & Spotify Sync ---
-    const partyVibeSection = document.getElementById('party-vibe');
-    if (partyVibeSection && music) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // In Party Vibe section - pause bg music
-                    if (isPlaying) {
-                        music.pause();
-                        musicIcon.classList.replace('ph-speaker-high', 'ph-speaker-slash');
-                    }
-                } else {
-                    // Left Party Vibe section - resume if it was playing
-                    if (isPlaying) {
-                        music.play().catch(e => console.log("Auto-resume blocked"));
-                        musicIcon.classList.replace('ph-speaker-slash', 'ph-speaker-high');
-                    }
-                }
-            });
-        }, { threshold: 0.2 });
 
-        observer.observe(partyVibeSection);
-    }
 
     // Scroll-to-Top Surprise Button
     const surpriseBtn = document.getElementById('surprise-btn');
