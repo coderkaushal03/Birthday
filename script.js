@@ -247,7 +247,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPlaying = false;
     music.volume = 0.3;
 
-    musicBtn.addEventListener('click', () => {
+    function playMusic() {
+        if (!isPlaying) {
+            music.play().then(() => {
+                isPlaying = true;
+                musicIcon.classList.replace('ph-speaker-slash', 'ph-speaker-high');
+            }).catch(e => {
+                console.log("Autoplay blocked. Waiting for interaction.");
+            });
+        }
+    }
+
+    // Try to play immediately (might be blocked)
+    playMusic();
+
+    // Play on first interaction if blocked
+    const startAudioOnInteraction = () => {
+        playMusic();
+        window.removeEventListener('click', startAudioOnInteraction);
+        window.removeEventListener('scroll', startAudioOnInteraction);
+        window.removeEventListener('touchstart', startAudioOnInteraction);
+    };
+
+    window.addEventListener('click', startAudioOnInteraction);
+    window.addEventListener('scroll', startAudioOnInteraction, { passive: true });
+    window.addEventListener('touchstart', startAudioOnInteraction, { passive: true });
+
+    musicBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent trigger the window click
         if (isPlaying) {
             music.pause();
             musicIcon.classList.replace('ph-speaker-high', 'ph-speaker-slash');
