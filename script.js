@@ -308,24 +308,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const generatedMessage = document.getElementById('generated-message');
 
     const intros = [
-        "Beep boop! Hello {name}.",
-        "Initializing gratitude protocol for {name}...",
-        "Neural network confirms: {name} is awesome.",
-        "Hey {name}!"
+        "Initializing hyper-gratitude protocol for {name}...",
+        "Beep boop! My neural processors just peaked because of {name}.",
+        "Accessing core memories... Found a high-priority entry for {name}.",
+        "Target identified: {name}. Status: Absolutely Legend.",
+        "Yo {name}! My birthday algorithm just calculated your awesomeness levels.",
+        "Casting a level 100 'Thank You' spell on {name}...",
+        "Analyzing sentiment packets... {name}, your vibes are immaculate.",
+        "Warning: Joy levels exceeding safety limits because of {name}!"
     ];
 
     const bodies = [
-        "Your wishes totally made my day unforgettable.",
-        "I analyzed all my birthday messages, and yours had the highest energy levels.",
-        "Thanks for being a core memory in my system today.",
-        "Your message was the perfect upgrade to my birthday firmware."
+        "Your wish was like an overclocked GPU—pure power and zero lag in my heart-rig. 🖥️",
+        "I scanned 10^12 timelines, and this is the one where your message made my day iconic. 🌌",
+        "You’re basically the CSS that makes my life look beautiful. No cap. ✨",
+        "Your birthday packet was received with 0% packet loss and 100% emotional impact. 📡",
+        "If my life was a codebase, you’d be the most important library in my dependencies. 📦",
+        "Your wish just added +500 XP to my maturity level (still stuck at level 1 though). 🎮",
+        "I've updated my firmware. Version 'Kaushal-2.1' now includes a permanent {name} fan-club. 🦾",
+        "Your message is currently the top-voted entry in my happiness database. 🗃️"
     ];
 
     const outtros = [
-        "You're a legend! ❤️",
-        "Keep shining! ✨",
-        "Stay awesome! 🚀",
-        "Sending virtual high-fives! 🙌"
+        "Stay legendary, stay you. ❤️🧿",
+        "Leveling up wouldn't be the same without you! 🚀",
+        "Sending you a virtual high-five across the multiverse! 🖐️✨",
+        "Catch you on the next orbit around the sun! ☀️🌍",
+        "Real ones like you are rare. Keep shining! 💎",
+        "Error: Gratitude overflow. Ending session with a big hug! 🤗",
+        "You’re the MVP of this celebration. Period. 🏆"
     ];
 
     generateBtn.addEventListener('click', () => {
